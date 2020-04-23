@@ -70,12 +70,17 @@ questions = {
     addRole: [
         {
             type: 'input',
-            name: 'addRole',
+            name: 'title',
             message: 'Which Role would you like to add?'
         },
         {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the roles salary?'
+        },
+        {
             type: 'list',
-            name: 'addRoleDepartment',
+            name: 'department_id',
             message: 'Which department does the role belong to?',
             choices: []
         }
@@ -91,7 +96,7 @@ questions = {
     addDepartment: [
         {
             type: 'input',
-            name: 'addDepartment',
+            name: 'name',
             message: 'Which Department would you like to add?'
         }
     ],

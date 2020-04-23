@@ -75,6 +75,12 @@ connection.connect(function(err){
               })
             }
           })
+        },
+        'Add Department': function(){
+          inquirer.prompt(questions.addDepartment).then(res => {
+            employee.addDepartment(res)
+            setTimeout(ask, 200)
+          })
         }
 
 

@@ -40,6 +40,9 @@ class Employee {
   deleteDepartment(val) {
     this.connection.query(`DELETE FROM department WHERE title = ?`, val, callback)
   }
+  addDepartment(options) {
+    return this.connection.query(`INSERT INTO department SET ?`, options, callback)
+  }
 }
 
 function callback(err, res) {
