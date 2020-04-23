@@ -43,6 +43,10 @@ class Employee {
   addDepartment(options) {
     return this.connection.query(`INSERT INTO department SET ?`, options, callback)
   }
+  addRole(options) {
+    return this.connection.query(`INSERT INTO role SET ?`, options, callback)
+  }
+
 }
 
 function callback(err, res) {

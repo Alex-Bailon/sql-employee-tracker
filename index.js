@@ -70,7 +70,7 @@ connection.connect(function(err){
               });
               questions.removeDepartment[0].choices = depart
               inquirer.prompt(questions.removeDepartment).then(res => {
-                employee.deleteDepartment(res.removeDepartment)
+                employee.deleteDepartment(res)
                 setTimeout(ask, 200)
               })
             }
@@ -81,6 +81,29 @@ connection.connect(function(err){
             employee.addDepartment(res)
             setTimeout(ask, 200)
           })
+        },
+        'Add Role': function(){
+          connection.query('SELECT name FROM department', function(err, res){
+            if(err) {
+              console.log('Error!')
+              console.log(err)
+            }
+            else {
+              // console.log(res)
+              console.log('Query successful.')
+              let depart = []
+              res.forEach(element => {
+                depart.push(element.name)
+              });
+              questions.addRole[2].choices = depart
+              inquirer.prompt(questions.addRole).then(res => {
+                res['department_id'] = depart.indexOf(res['department_id']) + 1
+                employee.addRole(res)
+                setTimeout(ask, 200)
+              })
+            }
+          })
+
         }
 
 
