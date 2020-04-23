@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Alex-Bailon/sql-employee-tracker#readme",
   "dependencies": {
     "console.table": "^0.10.0",
-    "inquire": "^0.4.8",
+    "inquirer": "^7.1.0",
     "mysql": "^2.18.1"
   }
 }

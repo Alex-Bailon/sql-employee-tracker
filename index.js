@@ -1,6 +1,7 @@
-const mysql = require("../node_modules/mysql");
-let employee = require('./queries/employee')
-const inquirer = require('../node_modules/inquire')
+const mysql = require("mysql");
+const inquirer = require('inquirer')
+let employee = require('./src/queries/employee')
+let { questions } = require('./src/questions')
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -16,4 +17,9 @@ connection.connect(function(err){
   if(err) throw err;
   console.log("connected as id "+ connection.threadId);
   employee = new employee.Employee(connection)
+
+  function ask(){
+    inquirer.prompt(questions.main).then(res => {console.log(res)})
+  }
+  ask()
 });
