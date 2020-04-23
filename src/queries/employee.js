@@ -21,6 +21,25 @@ class Employee {
       DROP TABLE employee
     `, callback)
   }
+  getAllEmployees() {
+    this.connection.query(`
+    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
+    FROM employee
+    INNER JOIN role ON role.id = employee.id
+    INNER JOIN department ON role.department_id = department.id`, callback)
+  }
+  getAllDepartments() {
+    this.connection.query(`SELECT name FROM department`, callback)
+  }
+  getAllRoles() {
+    this.connection.query(`SELECT title, salary FROM role`, callback)
+  }
+  deleteRole(val) {
+    this.connection.query(`DELETE FROM role WHERE title = ?`, val, callback)
+  }
+  deleteDepartment(val) {
+    this.connection.query(`DELETE FROM department WHERE title = ?`, val, callback)
+  }
 }
 
 function callback(err, res) {
@@ -33,6 +52,8 @@ function callback(err, res) {
     console.log('Query successful.')
   }
 }
+
+
 
 module.exports = {
   Employee
