@@ -28,7 +28,7 @@ questions = {
         },
         {
             type: 'list',
-            name: 'title',
+            name: 'role_id',
             message: "What is the employee's role?",
             choices: []
         },

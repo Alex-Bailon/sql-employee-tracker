@@ -25,7 +25,7 @@ class Employee {
     this.connection.query(`
     SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
     FROM employee
-    INNER JOIN role ON role.id = employee.id
+    INNER JOIN role ON role.id = employee.role_id
     INNER JOIN department ON role.department_id = department.id`, callback)
   }
   getAllDepartments() {
@@ -46,6 +46,10 @@ class Employee {
   addRole(options) {
     return this.connection.query(`INSERT INTO role SET ?`, options, callback)
   }
+  addEmployee(options) {
+    return this.connection.query(`INSERT INTO employee SET ?`, options, callback)
+  }
+
 
 }
 
