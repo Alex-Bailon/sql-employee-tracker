@@ -28,11 +28,30 @@ class Employee {
     INNER JOIN role ON role.id = employee.role_id
     INNER JOIN department ON role.department_id = department.id`, callback)
   }
+  getEmployeesByDepartment() {
+    this.connection.query(`
+    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
+    FROM employee
+    INNER JOIN role ON role.id = employee.role_id
+    INNER JOIN department ON role.department_id = department.id
+    ORDER BY department.id ASC`, callback)
+  }
+  getEmployeesByManager() {
+    this.connection.query(`
+    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
+    FROM employee
+    INNER JOIN role ON role.id = employee.role_id
+    INNER JOIN department ON role.department_id = department.id
+    ORDER BY manager_id ASC`, callback)
+  }
   getAllDepartments() {
     this.connection.query(`SELECT name FROM department`, callback)
   }
   getAllRoles() {
     this.connection.query(`SELECT title, salary FROM role`, callback)
+  }
+  updateRole(id, options) {
+    this.connection.query(`UPDATE employee SET ? WHERE ?`, [options, { id }], callback)
   }
   updateManager(id, options) {
     this.connection.query(`UPDATE employee SET ? WHERE ?`, [options, { id }], callback)

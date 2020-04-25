@@ -37,6 +37,22 @@ connection.connect(function(err){
           employee.getAllEmployees()
           setTimeout(ask, 200)
         },
+        'View All Employees by Department': function(){
+          employee.getEmployeesByDepartment()
+          setTimeout(ask, 200)
+        },
+        'View All Employees by Manager': function(){
+          employee.getEmployeesByManager()
+          setTimeout(ask, 200)
+        },
+        'Update Employee Role': function(){
+          inquirer.prompt(questions.updateRole).then(res => {
+            res['roleUpdate'] = res['roleUpdate'].split('ID: ')[1]
+            res['newRole'] = res['newRole'].split('RoleID: ')[1]
+            employee.updateRole(res.roleUpdate, {'role_id': res.newRole})
+            setTimeout(ask, 200)
+          })
+        },
         'Update Employee Manager': function(){
           inquirer.prompt(questions.updateManager).then(res => {
             res['managerUpdate'] = res['managerUpdate'].split('ID: ')[1]
