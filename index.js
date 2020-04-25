@@ -37,15 +37,23 @@ connection.connect(function(err){
           employee.getAllEmployees()
           setTimeout(ask, 200)
         },
+        'Remove Employee': function(){
+          inquirer.prompt(questions.removeEmployee).then(res => {
+            res['removeEmp'] = res['removeEmp'].split('ID: ')[1]
+            employee.deleteEmployee(res.removeEmp)
+          })
+        },
         'Remove Role': function(){
           inquirer.prompt(questions.removeRole).then(res => {
+            res['removeRole'] = res['removeRole'].split("RoleID: ")[1]
             employee.deleteRole(res.removeRole)
             setTimeout(ask, 200)
           })
         }, 
         'Remove Department': function(){
           inquirer.prompt(questions.removeDepartment).then(res => {
-            employee.deleteDepartment(res)
+            res['removeDepartment'] = res['removeDepartment'].split('DepartmentID: ')[1]
+            employee.deleteDepartment(res.removeDepartment)
             setTimeout(ask, 200)
           })
         },
@@ -64,27 +72,11 @@ connection.connect(function(err){
           })
         },
         'Add Role': function(){
-          connection.query('SELECT * FROM department', function(err, res){
-            if(err) {
-              console.log('Error!')
-              console.log(err)
-            }
-            else {
-              // console.log(res)
-              console.log('Query successful.')
-              let depart = []
-              res.forEach(element => {
-                depart.push(`${ element.name } DepartmentID: ${ element.id }`)
-              });
-              questions.addRole[2].choices = depart
-              inquirer.prompt(questions.addRole).then(res => {
-                res['department_id'] = res['department_id'].split('Department:ID ')[1]
-                employee.addRole(res)
-                setTimeout(ask, 200)
-              })
-            }
+          inquirer.prompt(questions.addRole).then(res => {
+            res['department_id'] = res['department_id'].split('DepartmentID: ')[1]
+            employee.addRole(res)
+            setTimeout(ask, 200)
           })
-
         }
 
 

@@ -34,11 +34,14 @@ class Employee {
   getAllRoles() {
     this.connection.query(`SELECT title, salary FROM role`, callback)
   }
+  deleteEmployee(val) {
+    this.connection.query(`DELETE FROM employee WHERE id = ?`, val, callback)
+  }
   deleteRole(val) {
-    this.connection.query(`DELETE FROM role WHERE title = ?`, val, callback)
+    this.connection.query(`DELETE FROM role WHERE id = ?`, val, callback)
   }
   deleteDepartment(val) {
-    this.connection.query(`DELETE FROM department WHERE title = ?`, val, callback)
+    this.connection.query(`DELETE FROM department WHERE id = ?`, val, callback)
   }
   addDepartment(options) {
     return this.connection.query(`INSERT INTO department SET ?`, options, callback)
@@ -58,6 +61,10 @@ class Employee {
           emp.push(`${element['first_name']} ${element['last_name']} ID: ${ element.id}`)
         })
         questions.addEmployee[3].choices = emp
+        questions.removeEmployee[0].choices = emp
+        questions.updateManager[0].choices = emp
+        questions.updateManager[1].choices = emp
+        questions.updateRole[0].choices = emp
       }
     })  
   }
@@ -70,17 +77,18 @@ class Employee {
       })
       questions.addEmployee[2].choices = roles
       questions.removeRole[0].choices = roles
+      questions.updateRole[1].choices = roles
     })
   }
   getDepartmentInfo(){
-    this.connection.query('SELECT name FROM department', function(err, res){
+    this.connection.query('SELECT * FROM department', function(err, res){
       if(err) throw err
-      console.log('Query successful.')
       let depart = []
       res.forEach(element => {
-        depart.push(element.name)
+        depart.push(`${ element.name } DepartmentID: ${ element.id }`)
       });
       questions.removeDepartment[0].choices = depart
+      questions.addRole[2].choices = depart
     })
   }
 
