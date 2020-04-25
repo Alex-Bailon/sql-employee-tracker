@@ -102,8 +102,10 @@ connection.connect(function(err){
             employee.addRole(res)
             setTimeout(ask, 200)
           })
+        },
+        'Exit': function(){
+          process.exit()
         }
-
 
       }
       actions[res.action]()

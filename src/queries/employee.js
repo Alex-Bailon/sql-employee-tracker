@@ -4,7 +4,7 @@ class Employee {
   constructor(connection) {
     this.connection = connection
   }
-  createTable() {
+  createTables() {
     this.connection.query(`
         CREATE TABLE employee (
             id INT NOT NULL AUTO_INCREMENT,
@@ -13,36 +13,55 @@ class Employee {
             role_id INT NOT NULL,
             manager_id INT,
             PRIMARY KEY (id)
-        );
+        )
+        CREATE TABLE role (
+          id int NOT NULL AUTO_INCREMENT,
+          title varchar(30) NOT NULL,
+          salary decimal(10,0) NOT NULL,
+          department_id int NOT NULL,
+          PRIMARY KEY (id);
+        )
+        CREATE TABLE department (
+          id int NOT NULL AUTO_INCREMENT,
+          name varchar(30) NOT NULL,
+          PRIMARY KEY (id)
+        )
+        INSERT INTO employee (id, first_name, last_name, role_id) VALUES ('1', 'No', 'Manager', '0');
     `, callback)
   }
-  dropTable() {
+  dropTables() {
     this.connection.query(`
-      DROP TABLE employee
+      DROP TABLE employee;
+      DROP TABLE role;
+      DROP TABLE department;
     `, callback)
   }
   getAllEmployees() {
     this.connection.query(`
-    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
-    FROM employee
-    INNER JOIN role ON role.id = employee.role_id
-    INNER JOIN department ON role.department_id = department.id`, callback)
+    SELECT e1.id AS 'ID', e1.first_name AS 'First Name', e1.last_name AS 'Last Name', role.title AS 'Role', department.name AS 'Department', role.salary AS 'Salary', CONCAT(e2.first_name, ' ', e2.last_name) AS Manager
+    FROM employee e1
+    INNER JOIN role ON role.id = e1.role_id
+    INNER JOIN department ON role.department_id = department.id
+	  JOIN employee e2 WHERE e2.id = e1.manager_id
+	  `, callback)
   }
   getEmployeesByDepartment() {
     this.connection.query(`
-    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
-    FROM employee
-    INNER JOIN role ON role.id = employee.role_id
+    SELECT e1.id AS 'ID', e1.first_name AS 'First Name', e1.last_name AS 'Last Name', role.title AS 'Role', department.name AS 'Department', role.salary AS 'Salary', CONCAT(e2.first_name, ' ', e2.last_name) AS Manager
+    FROM employee e1
+    INNER JOIN role ON role.id = e1.role_id
     INNER JOIN department ON role.department_id = department.id
+	  JOIN employee e2 WHERE e2.id = e1.manager_id
     ORDER BY department.id ASC`, callback)
   }
   getEmployeesByManager() {
     this.connection.query(`
-    SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, employee.manager_id
-    FROM employee
-    INNER JOIN role ON role.id = employee.role_id
+    SELECT e1.id AS 'ID', e1.first_name AS 'First Name', e1.last_name AS 'Last Name', role.title AS 'Role', department.name AS 'Department', role.salary AS 'Salary', CONCAT(e2.first_name, ' ', e2.last_name) AS Manager
+    FROM employee e1
+    INNER JOIN role ON role.id = e1.role_id
     INNER JOIN department ON role.department_id = department.id
-    ORDER BY manager_id ASC`, callback)
+	  JOIN employee e2 WHERE e2.id = e1.manager_id
+    ORDER BY e1.manager_id ASC`, callback)
   }
   getAllDepartments() {
     this.connection.query(`SELECT name FROM department`, callback)
@@ -122,7 +141,7 @@ function callback(err, res) {
     console.log(err)
   }
   else {
-    console.log(res)
+    console.table(res)
     console.log('Query successful.')
   }
 }
