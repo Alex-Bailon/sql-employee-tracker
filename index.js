@@ -20,6 +20,9 @@ connection.connect(function(err){
   employee = new employee.Employee(connection)
   
   function ask(){
+    employee.getEmployeeInfo()
+    employee.getRoleInfo()
+    employee.getDepartmentInfo()
     inquirer.prompt(questions.main).then(res => {
       const actions = {
         'View All Departments': function(){
@@ -35,71 +38,23 @@ connection.connect(function(err){
           setTimeout(ask, 200)
         },
         'Remove Role': function(){
-          connection.query('SELECT title FROM role', function(err, res){
-            if(err) {
-              console.log('Error!')
-              console.log(err)
-            }
-            else {
-              // console.log(res)
-              console.log('Query successful.')
-              let roles = []
-              res.forEach(element => {
-                roles.push(element.title)
-              });
-              questions.removeRole[0].choices = roles
-              inquirer.prompt(questions.removeRole).then(res => {
-                employee.deleteRole(res.removeRole)
-                setTimeout(ask, 200)
-              })
-            }
+          inquirer.prompt(questions.removeRole).then(res => {
+            employee.deleteRole(res.removeRole)
+            setTimeout(ask, 200)
           })
         }, 
         'Remove Department': function(){
-          connection.query('SELECT name FROM department', function(err, res){
-            if(err) {
-              console.log('Error!')
-              console.log(err)
-            }
-            else {
-              // console.log(res)
-              console.log('Query successful.')
-              let depart = []
-              res.forEach(element => {
-                depart.push(element.name)
-              });
-              questions.removeDepartment[0].choices = depart
-              inquirer.prompt(questions.removeDepartment).then(res => {
-                employee.deleteDepartment(res)
-                setTimeout(ask, 200)
-              })
-            }
+          inquirer.prompt(questions.removeDepartment).then(res => {
+            employee.deleteDepartment(res)
+            setTimeout(ask, 200)
           })
         },
-        'Add Employee': async function(){
-          connection.query('SELECT first_name, last_name, id FROM employee', function(err, res){
-            if (err) throw err
-            else {
-              let emp = []
-              res.forEach(element => {
-                emp.push(`${element['first_name']} ${element['last_name']} ID: ${ element.id}`)
-              })
-              questions.addEmployee[3].choices = emp
-              connection.query('SELECT title, id FROM role', function(err, res){
-                if (err) throw err
-                let roles = []
-                res.forEach(role => {
-                  roles.push(`${ role.title } RoleID: ${ role.id }`)
-                })
-                questions.addEmployee[2].choices = roles
-                inquirer.prompt(questions.addEmployee).then(res => {
-                  res['manager_id'] = res['manager_id'].split("ID: ")[1]
-                  res['role_id'] = res['role_id'].split("RoleID: ")[1]
-                  employee.addEmployee(res)
-                  setTimeout(ask, 200)
-                })
-              })
-            }
+        'Add Employee': function(){
+          inquirer.prompt(questions.addEmployee).then(res => {
+            res['manager_id'] = res['manager_id'].split("ID: ")[1]
+            res['role_id'] = res['role_id'].split("RoleID: ")[1]
+            employee.addEmployee(res)
+            setTimeout(ask, 200)
           })
         },
         'Add Department': function(){
@@ -139,3 +94,5 @@ connection.connect(function(err){
   }
   ask()
 });
+
+module.exports = {employee}

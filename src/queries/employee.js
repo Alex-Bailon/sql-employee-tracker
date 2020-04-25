@@ -49,7 +49,40 @@ class Employee {
   addEmployee(options) {
     return this.connection.query(`INSERT INTO employee SET ?`, options, callback)
   }
-
+  getEmployeeInfo(){
+    this.connection.query('SELECT first_name, last_name, id FROM employee', function(err, res){
+      if (err) throw err
+      else {
+        let emp = []
+        res.forEach(element => {
+          emp.push(`${element['first_name']} ${element['last_name']} ID: ${ element.id}`)
+        })
+        questions.addEmployee[3].choices = emp
+      }
+    })  
+  }
+  getRoleInfo(){
+    this.connection.query('SELECT title, id FROM role', function(err, res){
+      if (err) throw err
+      let roles = []
+      res.forEach(role => {
+        roles.push(`${ role.title } RoleID: ${ role.id }`)
+      })
+      questions.addEmployee[2].choices = roles
+      questions.removeRole[0].choices = roles
+    })
+  }
+  getDepartmentInfo(){
+    this.connection.query('SELECT name FROM department', function(err, res){
+      if(err) throw err
+      console.log('Query successful.')
+      let depart = []
+      res.forEach(element => {
+        depart.push(element.name)
+      });
+      questions.removeDepartment[0].choices = depart
+    })
+  }
 
 }
 
