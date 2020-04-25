@@ -48,7 +48,7 @@ questions = {
         },
         {
             type: 'list',
-            name: 'newManager',
+            name: 'manager_id',
             message: "Which employee would you like to set as manager for selected employee?",
             choices: []
         }

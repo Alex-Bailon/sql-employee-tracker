@@ -34,6 +34,9 @@ class Employee {
   getAllRoles() {
     this.connection.query(`SELECT title, salary FROM role`, callback)
   }
+  updateManager(id, options) {
+    this.connection.query(`UPDATE employee SET ? WHERE ?`, [options, { id }], callback)
+  }
   deleteEmployee(val) {
     this.connection.query(`DELETE FROM employee WHERE id = ?`, val, callback)
   }

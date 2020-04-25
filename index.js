@@ -37,10 +37,19 @@ connection.connect(function(err){
           employee.getAllEmployees()
           setTimeout(ask, 200)
         },
+        'Update Employee Manager': function(){
+          inquirer.prompt(questions.updateManager).then(res => {
+            res['managerUpdate'] = res['managerUpdate'].split('ID: ')[1]
+            res['manager_id'] = res['manager_id'].split('ID: ')[1]
+            employee.updateManager(res.managerUpdate, {'manager_id': res['manager_id']})
+            setTimeout(ask, 200)
+          })
+        },
         'Remove Employee': function(){
           inquirer.prompt(questions.removeEmployee).then(res => {
             res['removeEmp'] = res['removeEmp'].split('ID: ')[1]
             employee.deleteEmployee(res.removeEmp)
+            setTimeout(ask, 200)
           })
         },
         'Remove Role': function(){
