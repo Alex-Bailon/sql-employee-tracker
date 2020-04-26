@@ -15,11 +15,11 @@ const connection = mysql.createConnection({
   database: 'employee_db'
 });
 
+intro()
 connection.connect(function(err){
   if(err) throw err;
   console.log("connected as id "+ connection.threadId);
   employee = new employee.Employee(connection)
-  intro()
   function ask(){
     employee.getEmployeeInfo()
     employee.getRoleInfo()
