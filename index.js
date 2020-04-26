@@ -3,6 +3,7 @@ const inquirer = require('inquirer')
 const cTable = require('console.table');
 let employee = require('./src/queries/employee')
 let { questions } = require('./src/questions')
+let { intro } = require('./src/consolelog')
 
 const connection = mysql.createConnection({
   host: "localhost",
@@ -18,7 +19,7 @@ connection.connect(function(err){
   if(err) throw err;
   console.log("connected as id "+ connection.threadId);
   employee = new employee.Employee(connection)
-  
+  intro()
   function ask(){
     employee.getEmployeeInfo()
     employee.getRoleInfo()
