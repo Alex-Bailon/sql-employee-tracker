@@ -4,38 +4,6 @@ class Employee {
   constructor(connection) {
     this.connection = connection
   }
-  createTables() {
-    this.connection.query(`
-        CREATE TABLE employee (
-            id INT NOT NULL AUTO_INCREMENT,
-            first_name VARCHAR(30) NOT NULL,
-            last_name VARCHAR(30) NOT NULL,
-            role_id INT NOT NULL,
-            manager_id INT,
-            PRIMARY KEY (id)
-        )
-        CREATE TABLE role (
-          id int NOT NULL AUTO_INCREMENT,
-          title varchar(30) NOT NULL,
-          salary decimal(10,0) NOT NULL,
-          department_id int NOT NULL,
-          PRIMARY KEY (id);
-        )
-        CREATE TABLE department (
-          id int NOT NULL AUTO_INCREMENT,
-          name varchar(30) NOT NULL,
-          PRIMARY KEY (id)
-        )
-        INSERT INTO employee (id, first_name, last_name, role_id) VALUES ('1', 'No', 'Manager', '0');
-    `, callback)
-  }
-  dropTables() {
-    this.connection.query(`
-      DROP TABLE employee;
-      DROP TABLE role;
-      DROP TABLE department;
-    `, callback)
-  }
   getAllEmployees() {
     //Chris helped me get CONCAT and AS keywords for SQL
     this.connection.query(`
