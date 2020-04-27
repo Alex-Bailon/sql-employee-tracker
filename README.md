@@ -7,10 +7,11 @@ Employee-tracker is a CLI that allows the user to be able to manage employees wi
 * console.table (to display data in a nice table)
 
 ## Installation/Usage
-Please ensure to do the following before running code:
+Please ensure to do the following before/when running code:
 * Run `npm install`
 * Make sure to run both `schema.sql` and `seeds.sql` files in mySQL Workbench
 * To run code type `npm start`
+* Ensure to setup departments first, Roles after that and lastly add employees.
 
 Below is a demonstration how the code operates  
 ![employee tracker demonstration](./assets/sql-Employee-Tracker.gif)
