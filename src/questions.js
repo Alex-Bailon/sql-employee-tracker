@@ -1,3 +1,4 @@
+//questions js for all questions. questions with empty choices will be filled in from 'get' queries functions
 questions = {
     main: [
         {

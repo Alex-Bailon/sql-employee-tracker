@@ -1,10 +1,11 @@
+//set all required content
 const mysql = require("mysql");
 const inquirer = require('inquirer')
 const cTable = require('console.table');
 let employee = require('./src/queries/employee')
 let { questions } = require('./src/questions')
 let { intro } = require('./src/consolelog')
-
+//set up connection
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -14,17 +15,23 @@ const connection = mysql.createConnection({
   password: 'password',
   database: 'employee_db'
 });
-
+//function to display intro console log
 intro()
+//connect to MySQL
 connection.connect(function(err){
   if(err) throw err;
   console.log("connected as id "+ connection.threadId);
+  //create employee class
   employee = new employee.Employee(connection)
+  //function to ask user what they'd liek to do
   function ask(){
+    //at function start have 3 functions to get all info and set fill in question choices
     employee.getEmployeeInfo()
     employee.getRoleInfo()
     employee.getDepartmentInfo()
+    //ask user what they would like to do
     inquirer.prompt(questions.main).then(res => {
+      //actions var to execute action depending on user response at end of each action function will restart
       const actions = {
         'View All Departments': function(){
           employee.getAllDepartments()

@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-
+//class depending on what the user selects a query will be called from this class.
 class Employee {
   constructor(connection) {
     this.connection = connection
@@ -93,6 +93,7 @@ class Employee {
   addEmployee(options) {
     return this.connection.query(`INSERT INTO employee SET ?`, options, callback)
   }
+  //next three functions set questions with employeee/role/department info
   getEmployeeInfo(){
     this.connection.query('SELECT first_name, last_name, id FROM employee', function(err, res){
       if (err) throw err
@@ -134,7 +135,7 @@ class Employee {
   }
 
 }
-
+//callback function to log the res into a table or log err
 function callback(err, res) {
   if(err) {
     console.log('Error!')
