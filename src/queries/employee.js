@@ -37,6 +37,7 @@ class Employee {
     `, callback)
   }
   getAllEmployees() {
+    //Chris helped me get CONCAT and AS keywords for SQL
     this.connection.query(`
     SELECT e1.id AS 'ID', e1.first_name AS 'First Name', e1.last_name AS 'Last Name', role.title AS 'Role', department.name AS 'Department', role.salary AS 'Salary', CONCAT(e2.first_name, ' ', e2.last_name) AS Manager
     FROM employee e1
