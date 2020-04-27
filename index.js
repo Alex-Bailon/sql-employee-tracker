@@ -121,5 +121,3 @@ connection.connect(function(err){
   }
   ask()
 });
-
-module.exports = {employee}
