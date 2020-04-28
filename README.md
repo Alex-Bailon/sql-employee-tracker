@@ -15,6 +15,7 @@ Please ensure to do the following before/when running code:
 
 Below is a demonstration how the code operates  
 ![employee tracker demonstration](./assets/sql-Employee-Tracker.gif)
+
 ## License
 MIT License
 
